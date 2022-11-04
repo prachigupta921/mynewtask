@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { addEvent } from "../Action/index";
 
 const Events=()=>{
@@ -11,6 +11,7 @@ const Events=()=>{
   const [eventorga,seteventOrga]=useState("")
   const [subEvent,setsubEvent]=useState("")
   const dispatch=useDispatch();
+  const list = useSelector((state)=>state.EventReducer.list)
 
     const toggleModal=()=>{
       setModal(!modal);
@@ -19,7 +20,7 @@ const Events=()=>{
         <div>
         <button onClick={toggleModal}>AddTask</button>
 
-      {modal && (<div onClick={toggleModal}>
+      {modal && (<div>
         <div>
           <input type="text" placeholder=" Enent Name" value={inputData}
           onChange={(event)=>setInputData(event.target.value)}
@@ -45,8 +46,16 @@ const Events=()=>{
           <input type="text" placeholder="Total no of sub events" value={subEvent}
           onChange={(event)=>setsubEvent(event.target.value)}
           />
+
+          {
+            list.map((e)=>{
+              <div key={e.id}>
+                <h3>{e.data}</h3>
+          </div>
+            })
+          }
           <button onClick={()=>dispatch(addEvent(inputData),setInputData(''),setoption(''),
-          setDate(),seteventDes(''),seteventOrga(''),setsubEvent(''))}>Submit</button>
+               setDate(),seteventDes(''),seteventOrga(''),setsubEvent(''))}>Submit</button>
         </div>
       </div>)}
     </div>
